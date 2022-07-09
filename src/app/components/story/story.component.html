@@ -1,0 +1,49 @@
+<div class="w-100">
+    <!-- <input type="text" class="w-100 border-0 h5 h-100" [(ngModel)]="selectedStory.storySlug"> -->
+
+    <h4>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" [ngClass]="checkApproval(selectedStory)"
+            viewBox="0 0 16 16">
+            <path
+                d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+        </svg>
+        {{selectedStory.storySlug}}
+    </h4>
+    <textarea [(ngModel)]="selectedStory.storyScript" class="w-100 p-2" style="min-height:200px; resize: none;"
+        (input)="onEachInput(selectedStory.storyScript)"></textarea>
+    <div class="row">
+        <div class="col-sm-4">
+            Estimated time: {{selectedStory.storyEstTime}}
+        </div>
+        <div class="col-sm-4">
+            Story ID: {{selectedStory.storyId}}
+        </div>
+        <div class="col-sm-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="approvalCheck" (click)="selectedStory.storyApproval=!selectedStory.storyApproval; savedScriptVersions.push(selectedStory.storyScript);
+                    saveIsDisabled = true;
+
+                    checkApproval(selectedStory);" [checked]="approvalStatus" [disabled]="!selectedStory.storyScript">
+                <label class="form-check-label" for="approvalCheck">
+                    Approved
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-danger m-1" (click)="saveChanges()" [disabled]="saveIsDisabled">Save Changes</button>
+        <button class="btn btn-secondary m-1" (click)="undoScript()" [disabled]="undoIsDisabled">Undo</button>
+        <button class="btn btn-primary m-1" (click)="redoScript()" [disabled]="redoIsDisabled">Redo</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle m-1" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Versions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" *ngFor="let savedScriptVersion of savedScriptVersions; let i = index"
+                    (click)="createScriptVersion(savedScriptVersion)">Version
+                    {{i + 1}}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+.bookmark {
+    display: inline-block;
+    background: url(./assets/icons/bookmark-fill.svg);    
+  }
+
+  .fill-primary {
+    fill: #007bff;
+  }
+
+  .fill-success {
+    fill: #28a745;
+  }
+
+  .fill-warning {
+    fill: #ffc107;
+  }
+
+  .fill-danger {
+    fill: #dc3545;
+  }
+
+  .fill-secondary {
+    fill: #5a6268;
+  }

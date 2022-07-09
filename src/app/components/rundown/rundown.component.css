@@ -1,0 +1,22 @@
+.input-clean {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+}
+
+.input-xsmall {
+  width: 30px;  
+}
+
+.input-small {
+    width: 50px;  
+  }
+
+  .input-medium {
+    width: 200px;  
+  }
+
+  .input-large {
+    width: 300px;  
+  }
