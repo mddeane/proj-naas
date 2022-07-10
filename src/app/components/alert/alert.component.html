@@ -1,0 +1,12 @@
+<div class="mdd-alert-container col-6 col-md-4 col-lg-4 col-xl-3">
+    <div class="row" *ngFor="let alert of alertService.alerts; let i=index" onclick="this.style.display='none'">
+        <div [ngClass]="calculateAlertBackgroundColor(alert.alertType)">
+            <div style="float: left; width: 90%;">
+                <div>
+                    {{alert.alertText}}
+                </div>
+            </div>
+            <div style="float: right; width: 10%;font-size: 150%; line-height: 80%;">&otimes;</div>
+        </div>
+    </div>
+</div>

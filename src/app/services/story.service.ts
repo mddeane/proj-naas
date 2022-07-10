@@ -4,7 +4,6 @@ import { MessageService } from './message.service';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })

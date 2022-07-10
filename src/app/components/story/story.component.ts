@@ -1,6 +1,6 @@
+import { AlertService } from './../../services/alert.service';
 import { MessageService } from './../../services/message.service';
 import { StoryService } from './../../services/story.service';
-import { STORIES } from './../../shared/stories';
 import { Story } from './../../models/story.model';
 import { Component, OnInit } from '@angular/core';
 
@@ -21,11 +21,12 @@ export class StoryComponent implements OnInit {
   approvalStatus: boolean = false;  // toggles the approval status of the script 
   // this may be changed to hold states, such as "empty (gray)", "working (yellow)", "marked for approval (blue)", "approved (green)" 
 
-  constructor(private storyService: StoryService, private messageService: MessageService) { }
+  constructor(private storyService: StoryService, public alertService: AlertService) { }
 
   ngOnInit(): void {
     this.getStories();
     this.selectedStory = this.stories[2];
+    this.savedScriptVersions.push(this.selectedStory.storyScript);
   }
 
   getStories(): void {
@@ -36,7 +37,7 @@ export class StoryComponent implements OnInit {
   currentVersion: number = 0;
   undoVersion: number = 1;
 
-  savedScriptVersions: string[] = [this.selectedStory.storyScript];
+  savedScriptVersions: string[] = [];
 
   onEachInput(previousVersion: string) {
     this.approvalStatus = false;
@@ -51,8 +52,10 @@ export class StoryComponent implements OnInit {
     this.saveIsDisabled = true;
     if (this.selectedStory.storyScript !== this.savedScriptVersions[this.savedScriptVersions.length - 1]) {
       this.savedScriptVersions.push(this.selectedStory.storyScript);
-    } else {
-      console.log("This version is the same as the last saved version.")
+      this.alertService.showAlert("Script saved.");
+      console.log("savedVersion: " + (this.selectedStory.storyScript));
+      // } else {
+      //   this.alertService.showAlert("This version is the same as the last saved version.", "warning");
     }
   }
 
@@ -78,9 +81,11 @@ export class StoryComponent implements OnInit {
     }
   }
 
-  createScriptVersion(newScriptVersion: string) {
-    this.selectedStory.storyScript = newScriptVersion;
-    //    this.savedScriptVersions.push(newScriptVersion);
+  // this is not working correctly
+  //  createScriptVersion(newScriptVersion: string) {
+  createScriptVersion(index: number) {
+    //this.selectedStory.storyScript = newScriptVersion;
+    this.selectedStory.storyScript = this.savedScriptVersions[index];
   }
 
   noScriptUnapprove(story: Story): boolean {
@@ -116,5 +121,16 @@ export class StoryComponent implements OnInit {
       returnClass = "fill-warning";
     }
     return returnClass;
+  }
+
+  onApproval(): void {
+    this.selectedStory.storyApproval = !this.selectedStory.storyApproval;
+    this.saveChanges();
+    this.checkApproval(this.selectedStory);
+    if (this.selectedStory.storyApproval) {
+      this.alertService.showAlert("Story approved.", "success");
+    } else {
+      this.alertService.showAlert("Story unapproved.", "warning");
+    }
   }
 }

@@ -1,4 +1,5 @@
-<div class="container">
+<div class="m-5">
+    <h4>Rundown Title</h4>
     <table class="table table-sm table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
@@ -11,21 +12,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of items">
+            <tr *ngFor="let rundownItem of rundownItems">
                 <td class="bg-primary">
 
                 </td>
                 <td>
-                    <input type="text" class="input-clean input-small" [(ngModel)]="item.itemPageNumber">
+                    <input type="text" class="input-clean input-small" [(ngModel)]="rundownItem.itemPageNumber">
                 </td>
                 <td>
-                    <input type=" text" class="input-clean" [(ngModel)]="item.itemStory.storySlug">
+                    <input appFocusOff type=" text" class="input-clean" [(ngModel)]="rundownItem.itemStory.storySlug">
                 </td>
                 <td>
-                    <input type=" text" class="input-clean input-small" [(ngModel)]="item.itemStory.storyEstTime">
+                    <input type=" text" class="input-clean input-small"
+                        [(ngModel)]="rundownItem.itemStory.storyEstTime">
                 </td>
                 <td>
-                    <input type=" text" class="input-clean input-small" [(ngModel)]="item.itemStory.storyId">
+                    <input type=" text" class="input-clean input-small" [(ngModel)]="rundownItem.itemStory.storyId">
                 </td>
                 <td>
                     <input type=" text" class="input-clean input-large" value="Graphics">

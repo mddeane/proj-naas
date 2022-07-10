@@ -7,6 +7,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { StoryComponent } from './components/story/story.component';
 import { RundownComponent } from './components/rundown/rundown.component';
 import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MessageComponent } from './components/message/message.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { FocusOffDirective } from './directives/focus-off.directive';
 
 
 @NgModule({
@@ -14,7 +18,11 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     HeaderComponent,
     StoryComponent,
-    RundownComponent
+    RundownComponent,
+    DashboardComponent,
+    MessageComponent,
+    AlertComponent,
+    FocusOffDirective
   ],
   imports: [
     BrowserModule,

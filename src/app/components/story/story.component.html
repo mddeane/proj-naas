@@ -20,10 +20,8 @@
         </div>
         <div class="col-sm-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="approvalCheck" (click)="selectedStory.storyApproval=!selectedStory.storyApproval; savedScriptVersions.push(selectedStory.storyScript);
-                    saveIsDisabled = true;
-
-                    checkApproval(selectedStory);" [checked]="approvalStatus" [disabled]="!selectedStory.storyScript">
+                <input class="form-check-input" type="checkbox" value="" id="approvalCheck" (click)="onApproval()"
+                    [checked]="approvalStatus" [disabled]="!selectedStory.storyScript">
                 <label class="form-check-label" for="approvalCheck">
                     Approved
                 </label>
@@ -37,11 +35,11 @@
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle m-1" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                Versions
+                Versions ({{savedScriptVersions.length}})
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#" *ngFor="let savedScriptVersion of savedScriptVersions; let i = index"
-                    (click)="createScriptVersion(savedScriptVersion)">Version
+                <a class="dropdown-item" *ngFor="let savedScriptVersion of savedScriptVersions; let i = index"
+                    (click)="createScriptVersion(i)">Version
                     {{i + 1}}</a>
             </div>
         </div>
