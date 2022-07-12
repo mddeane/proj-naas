@@ -17,4 +17,9 @@ export class StoryService {
     this.messageService.add("StoryService getStories()");
     return stories;
   }
+
+  getStory(storyId: number): Observable<Story> {
+    const story = STORIES.find(s => s.storyId)!;
+    return of(story);
+  }
 }

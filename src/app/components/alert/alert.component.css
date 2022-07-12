@@ -5,7 +5,7 @@
 }
 
 .mdd-alert {
-    color: #333;
+    color: white;
     border: 1px solid lightgray;
     border-radius: 5px;
     padding: 5px;
@@ -17,21 +17,26 @@
 }
 
 .mdd-alert-default {
-    background: linear-gradient(rgba(240,240,240,.7), rgba(240,240,240,.7));
+    background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6));
 }
 
 .mdd-alert-success {
-    background: linear-gradient(rgba(40, 167, 69, 0.7), rgba(40, 167, 69,.7));
+    background: linear-gradient(rgba(40, 167, 69, 0.8), rgba(40, 167, 69,.8));
     color: white;
 }
 
 .mdd-alert-warning {
-    background: linear-gradient(rgba(255, 193, 7, 0.7), rgba(255,193,7,.7));
+    background: linear-gradient(rgba(255, 193, 7, 0.8), rgba(255,193,7,.8));
     color: white;
 }
 
 .mdd-alert-danger {
     background: linear-gradient(rgba(220, 53, 69, 0.7), rgba(220, 53, 69,.7));
+    color: white;
+}
+
+.mdd-alert-primary {
+    background: linear-gradient(rgba(0, 123, 255, 0.7), rgba(0, 123, 255,.7));
     color: white;
 }
 

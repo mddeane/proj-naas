@@ -22,3 +22,24 @@
   .fill-secondary {
     fill: #5a6268;
   }
+
+  .gfx-default {
+    color: #5a6268;
+    display: inline;
+  }
+
+  .gfx-L3 {
+    color: #007bff;
+    display: inline;
+  }
+
+  .gfx-FS {
+    color: orangered;
+    display: inline;
+  }
+
+  @media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 90%;
+  }
+}

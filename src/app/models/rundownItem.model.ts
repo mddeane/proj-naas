@@ -1,12 +1,17 @@
+import { Graphic } from './graphic.model';
 import { Story } from "./story.model";
 
 export class RundownItem {
-    itemPageNumber: number;
     itemStory: Story;
+    itemType: string;
+    itemGraphics: Graphic[];
 
 
-    constructor(itemPageNumber: number, itemStory: Story) {
-        this.itemPageNumber = itemPageNumber;
+    constructor(itemStory: Story, itemType: string, itemGraphics: Graphic[]) {
+
         this.itemStory = itemStory;
+        this.itemType = itemType;
+        this.itemGraphics = itemGraphics;
+
     }
 }

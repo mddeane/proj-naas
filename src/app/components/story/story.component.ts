@@ -1,8 +1,7 @@
 import { AlertService } from './../../services/alert.service';
-import { MessageService } from './../../services/message.service';
 import { StoryService } from './../../services/story.service';
 import { Story } from './../../models/story.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 
 @Component({
@@ -13,15 +12,18 @@ import { Component, OnInit } from '@angular/core';
 export class StoryComponent implements OnInit {
 
   stories: Story[] = [];  // array of Story objects which holds Stories from Observable 
-  selectedStory: Story = new Story(0, "", "", 0, false);  // variable will hold the story being viewed
+  selectedStory: Story = new Story(0, "", "", "", 0, false);  // variable will hold the story being viewed
 
   saveIsDisabled: boolean = true; // disables the save button
   redoIsDisabled: boolean = true; // disables the redo button
   undoIsDisabled: boolean = true; // disables the undo button
   approvalStatus: boolean = false;  // toggles the approval status of the script 
   // this may be changed to hold states, such as "empty (gray)", "working (yellow)", "marked for approval (blue)", "approved (green)" 
+  readyForApprovalStatus: boolean = false;  // toggles the ready for approval status of the script 
+  readyForApprovalDisabled: boolean = false;  // toggles the ready for approval disabled status 
 
   constructor(private storyService: StoryService, public alertService: AlertService) { }
+  @Input() selectedStory2?: Story;
 
   ngOnInit(): void {
     this.getStories();
@@ -31,6 +33,11 @@ export class StoryComponent implements OnInit {
 
   getStories(): void {
     this.storyService.getStories().subscribe(storyData => this.stories = storyData);
+  }
+
+  getStoryById(storyId: number) {
+    this.storyService.getStory(storyId).subscribe(gotStory => this.selectedStory2 = gotStory);
+    console.log(this.selectedStory2?.storyId);
   }
 
   scriptVersions: string[] = [this.selectedStory.storyScript];
@@ -86,6 +93,7 @@ export class StoryComponent implements OnInit {
   createScriptVersion(index: number) {
     //this.selectedStory.storyScript = newScriptVersion;
     this.selectedStory.storyScript = this.savedScriptVersions[index];
+    this.alertService.showAlert("Version " + (index + 1) + " loaded.");
   }
 
   noScriptUnapprove(story: Story): boolean {
@@ -129,8 +137,17 @@ export class StoryComponent implements OnInit {
     this.checkApproval(this.selectedStory);
     if (this.selectedStory.storyApproval) {
       this.alertService.showAlert("Story approved.", "success");
+      this.readyForApprovalStatus = false;
+      this.readyForApprovalDisabled = true;
     } else {
       this.alertService.showAlert("Story unapproved.", "warning");
+      this.readyForApprovalStatus = false;
+      this.readyForApprovalDisabled = false;
     }
+  }
+
+  onReadyForApproval() {
+    this.readyForApprovalStatus = !this.readyForApprovalStatus;
+    this.alertService.showAlert("readyForApprovalStatus: " + this.readyForApprovalStatus, "primary", 10000);
   }
 }

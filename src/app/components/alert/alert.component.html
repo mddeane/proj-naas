@@ -1,4 +1,4 @@
-<div class="mdd-alert-container col-6 col-md-4 col-lg-4 col-xl-3">
+<div class="mdd-alert-container col-6 col-md-4 col-lg-4 col-xl-3" style="z-index: 2000;">
     <div class="row" *ngFor="let alert of alertService.alerts; let i=index" onclick="this.style.display='none'">
         <div [ngClass]="calculateAlertBackgroundColor(alert.alertType)">
             <div style="float: left; width: 90%;">

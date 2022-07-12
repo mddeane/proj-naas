@@ -11,6 +11,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MessageComponent } from './components/message/message.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { FocusOffDirective } from './directives/focus-off.directive';
+import { DoubleClickOpenDirective } from './directives/double-click-open.directive';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { FocusOffDirective } from './directives/focus-off.directive';
     DashboardComponent,
     MessageComponent,
     AlertComponent,
-    FocusOffDirective
+    FocusOffDirective,
+    DoubleClickOpenDirective
   ],
   imports: [
     BrowserModule,

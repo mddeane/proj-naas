@@ -1,6 +1,4 @@
-<div class="w-100">
-    <!-- <input type="text" class="w-100 border-0 h5 h-100" [(ngModel)]="selectedStory.storySlug"> -->
-
+<div class="w-100 mt-3">
     <h4>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" [ngClass]="checkApproval(selectedStory)"
             viewBox="0 0 16 16">
@@ -9,16 +7,26 @@
         </svg>
         {{selectedStory.storySlug}}
     </h4>
-    <textarea [(ngModel)]="selectedStory.storyScript" class="w-100 p-2" style="min-height:200px; resize: none;"
+    <textarea [(ngModel)]="selectedStory.storyScript" class="w-100 p-2" style="min-height:400px; resize: none;"
         (input)="onEachInput(selectedStory.storyScript)"></textarea>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             Estimated time: {{selectedStory.storyEstTime}}
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             Story ID: {{selectedStory.storyId}}
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="readyForApprovalCheck"
+                    (click)="onReadyForApproval()" [checked]="readyForApprovalStatus"
+                    [disabled]="readyForApprovalDisabled">
+                <label class="form-check-label" for="readyForApprovalCheck">
+                    Ready for Approval
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="approvalCheck" (click)="onApproval()"
                     [checked]="approvalStatus" [disabled]="!selectedStory.storyScript">

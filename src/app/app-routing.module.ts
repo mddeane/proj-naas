@@ -1,3 +1,4 @@
+import { StoryComponent } from './../../../proj-v1/src/app/components/story/story.component';
 import { RundownComponent } from './components/rundown/rundown.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
@@ -7,6 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'rundown', component: RundownComponent },
+  { path: 'story', component: StoryComponent },
 
   // wildcard must be last
   { path: '**', component: DashboardComponent }

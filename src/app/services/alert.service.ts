@@ -11,16 +11,24 @@ export class AlertService {
   alerts: Alert[] = [];
 
   alertCounter: number = 1;
+  alertDefaultDuration: number = 5000;
 
-  showAlert(alertMessage: string, alertType?: string) {
+  showAlert(alertMessage: string, alertType?: string, alertDuration?: number) {
+
     if (!alertType) {
       alertType = "default";
     }
-    let newAlert: Alert = new Alert(alertMessage, new Date(), alertType);
+
+    if (!alertDuration) {
+      alertDuration = this.alertDefaultDuration;
+    }
+
+    let newAlert: Alert = new Alert(alertMessage, new Date(), alertType, alertDuration);
+
     this.alerts.push(newAlert);
     setTimeout(() => {
       this.alerts.shift()?.alertText;
-    }, 10000);
+    }, alertDuration);
     this.alertCounter++;
   }
 }

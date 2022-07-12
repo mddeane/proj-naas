@@ -10,8 +10,12 @@
 }
 
 .input-small {
-    width: 50px;  
-  }
+    width: 70px;  
+}
+
+.input-small-medium {
+  width: 125px;  
+}
 
   .input-medium {
     width: 200px;  
@@ -20,3 +24,15 @@
   .input-large {
     width: 300px;  
   }
+
+  .row-break, .row-break input {
+    /* background-color: skyblue; */
+    color: white !important;
+    background-color:#007bff !important;
+  }
+
+  td input:focus-visible {
+    outline: none;
+    color: black !important;
+    background-color: #f9ebc0 !important;
+}
