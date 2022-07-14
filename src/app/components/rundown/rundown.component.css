@@ -36,3 +36,11 @@
     color: black !important;
     background-color: #f9ebc0 !important;
 }
+
+.table-vertical-center {
+  vertical-align: center;
+}
+
+.row-alert {
+  outline: 2px solid yellow;
+}

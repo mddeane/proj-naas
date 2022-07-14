@@ -4,6 +4,7 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col"></th>
+                <th scope="col"></th>
                 <th scope="col">Page</th>
                 <th scope="col">Slug</th>
                 <th scope="col">Est Time</th>
@@ -12,14 +13,39 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let rundownItem of rundownItems; let i = index" [class]="getRowCss(rundownItem.itemType)"
-                (dblclick)="test(rundownItem.itemStory.storySlug)">
+            <tr *ngFor="let rundownItem of rundownItems; let i = index" [class]="getRowCss(rundownItem.itemType, i)"
+                (dblclick)="test(rundownItem.itemStory.storySlug)" (click)="setSelectedItemIndex(i)"
+                ondblclick="$('#storyModal').modal('show')">
+                <td class="bg-secondary">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" (click)="addItemAbove(newItem, i)">Add Row Above</a>
+                            <a class="dropdown-item" (click)="addItemBelow(newItem, i)">Add Row Below</a>
+                            <a class="dropdown-item" (click)="addItemBelow(rundownItem, i)">Duplicate Row</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" onclick="$('#storyModal').modal('show')">Open Story</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" (click)="deleteItem(i)">Delete Row</a>
+                        </div>
+                    </div>
+                </td>
+                <!-- <td [class]="rundownItem.itemStory.storyApproval ? 'bg-success text-center' : 'bg-secondary text-center'"
+                    data-toggle="modal" data-target=".story-modal"> -->
                 <td [class]="rundownItem.itemStory.storyApproval ? 'bg-success text-center' : 'bg-secondary text-center'"
-                    data-toggle="modal" data-target=".story-modal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-                    </svg>
+                    [style]="'cursor: move;'">
+                    <div (dragenter)="onDragEnter($event, i.toString())" (dragleave)=" onDragLeave($event)"
+                        (dragover)="onDragOver($event)" (drop)="onDrop($event, i)" (dragend)="onDragEnd($event, i)">
+                        <div [id]="'row-' + i" draggable="true" (dragstart)="onDragStart($event, rundownItem, i)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="display: none"></div>
                 </td>
                 <td>
                     <input type="text" class="input-clean input-small" value="{{i+1}}">
@@ -42,17 +68,37 @@
                         <span>
                             {{gfx.showGraphic()}}
                         </span>
-                        <span style="color: black"> {{i != rundownItem.itemGraphics.length-1 ? "&nbsp;&nbsp;&nbsp;" :
+                        <span style="color: black"> {{i != rundownItem.itemGraphics.length-1 ?
+                            "&nbsp;&nbsp;&nbsp;"
+                            :
                             ""}}
                         </span>
                     </div>
                 </td>
             </tr>
         </tbody>
+        <tfoot class="thead-dark">
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
     </table>
 </div>
+
+<button class="btn btn-primary" (click)="setSelectedItemIndex(1);
+">
+    Test
+</button>
+
 <!-- MODAL HTML -->
-<div class="modal fade story-modal" tabindex="-1" role="dialog" aria-labelledby="storyLabel" aria-hidden="true">
+<div class=" modal fade story-modal" tabindex="-1" role="dialog" aria-labelledby="storyLabel" aria-hidden="true"
+    id="storyModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content p-3">
             <app-story></app-story>

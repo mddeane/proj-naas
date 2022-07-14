@@ -150,4 +150,12 @@ export class StoryComponent implements OnInit {
     this.readyForApprovalStatus = !this.readyForApprovalStatus;
     this.alertService.showAlert("readyForApprovalStatus: " + this.readyForApprovalStatus, "primary", 10000);
   }
+
+  ctrlSSave(event: KeyboardEvent) {
+    if ((event.metaKey || event.ctrlKey) && event.key === 's') {
+      this.saveChanges();
+      event.preventDefault();
+    }
+  }
+
 }
