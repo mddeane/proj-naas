@@ -17,17 +17,19 @@
             <tr *ngFor="let rundownItem of rundownItems; let i = index" [class]="getRowCss(rundownItem.itemType, i)"
                 (click)="setSelectedItemIndex(i)" ondblclick="$('#storyModal').modal('show')"
                 [ngClass]="highlightedRows.includes(rundownItem) ? 'hightlight-warning' : ''">
-                <td class=" bg-secondary">
-                    <div class="dropdown">
-                        <div class="dropdown-toggle text-white text-center" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
+                <td class=" bg-secondary text-center" [class]="'margin: 0'">
+                    <div class="dropdgit ">
+                        <button class="app-btn-dropdown dropdown-toggle text-white" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                         <div class="dropdown-menu menuOffset" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="addItemAbove(newItem, i)">Add Row Above</a>
                             <a class="dropdown-item" (click)="addItemBelow(newItem, i)">Add Row Below</a>
                             <a class="dropdown-item" (click)="addItemBelow(rundownItem, i)">Duplicate Row</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" (click)="moveItemUp(rundownItem, i, 1)">Move Up</a>
-                            <a class="dropdown-item" (click)="moveItemDown(rundownItem, i, 1)">Move Down</a>
+                            <a *ngIf="i !== 0" class="dropdown-item" (click)="moveItemUp(rundownItem, i, 1)">Move Up</a>
+                            <a *ngIf="i !== rundownItems.length - 1" class="dropdown-item"
+                                (click)="moveItemDown(rundownItem, i, 1)"
+                                [ngClass]="i === rundownItems.length - 1 ? 'disabled' : ''">Move Down</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" onclick="$('#storyModal').modal('show')">Open Story</a>
                             <div class="dropdown-divider"></div>
@@ -35,8 +37,6 @@
                         </div>
                     </div>
                 </td>
-                <!-- <td [class]="rundownItem.itemStory.storyApproval ? 'bg-success text-center' : 'bg-secondary text-center'"
-                    data-toggle="modal" data-target=".story-modal"> -->
                 <td [class]="rundownItem.itemStory.storyApproval ? 'bg-success text-center' : 'bg-secondary text-center'"
                     [style]="'cursor: move;'">
                     <div (dragenter)="onDragEnter($event, i.toString())" (dragleave)=" onDragLeave($event)"

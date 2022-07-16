@@ -122,7 +122,9 @@ export class RundownComponent implements OnInit {
   }
 
   moveItemUp(item: RundownItem, index: number, moves: number) {
-    this.rundownItemService.moveRundownItemDown(item, index, moves * (-1));
+    if (index !== 0) {
+      this.rundownItemService.moveRundownItemDown(item, index, moves * (-1));
+    }
   }
 
   addItemAbove(item: RundownItem, index: number) {
