@@ -5,6 +5,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col"></th>
                 <th scope="col">Page</th>
                 <th scope="col">Slug</th>
                 <th scope="col">Est Time</th>
@@ -14,16 +15,19 @@
         </thead>
         <tbody>
             <tr *ngFor="let rundownItem of rundownItems; let i = index" [class]="getRowCss(rundownItem.itemType, i)"
-                (dblclick)="test(rundownItem.itemStory.storySlug)" (click)="setSelectedItemIndex(i)"
-                ondblclick="$('#storyModal').modal('show')">
-                <td class="bg-secondary">
+                (click)="setSelectedItemIndex(i)" ondblclick="$('#storyModal').modal('show')"
+                [ngClass]="highlightedRows.includes(rundownItem) ? 'hightlight-warning' : ''">
+                <td class=" bg-secondary">
                     <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div class="dropdown-toggle text-white text-center" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
+                        <div class="dropdown-menu menuOffset" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="addItemAbove(newItem, i)">Add Row Above</a>
                             <a class="dropdown-item" (click)="addItemBelow(newItem, i)">Add Row Below</a>
                             <a class="dropdown-item" (click)="addItemBelow(rundownItem, i)">Duplicate Row</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="moveItemUp(rundownItem, i, 1)">Move Up</a>
+                            <a class="dropdown-item" (click)="moveItemDown(rundownItem, i, 1)">Move Down</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" onclick="$('#storyModal').modal('show')">Open Story</a>
                             <div class="dropdown-divider"></div>
@@ -37,7 +41,7 @@
                     [style]="'cursor: move;'">
                     <div (dragenter)="onDragEnter($event, i.toString())" (dragleave)=" onDragLeave($event)"
                         (dragover)="onDragOver($event)" (drop)="onDrop($event, i)" (dragend)="onDragEnd($event, i)">
-                        <div [id]="'row-' + i" draggable="true" (dragstart)="onDragStart($event, rundownItem, i)">
+                        <div [id]="'row-' + i" draggable="true" (dragstart)="onDragStart(rundownItem, i)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
                                 viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -45,8 +49,13 @@
                             </svg>
                         </div>
                     </div>
-                    <div style="display: none"></div>
                 </td>
+                <td>
+                    <div class="form-check text-center">
+                        <input class="form-check-input" type="checkbox" (click)="highlightRow(rundownItem)">
+                    </div>
+                </td>
+
                 <td>
                     <input type="text" class="input-clean input-small" value="{{i+1}}">
                 </td>
@@ -79,6 +88,7 @@
         </tbody>
         <tfoot class="thead-dark">
             <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>

@@ -16,6 +16,14 @@ export class RundownComponent implements OnInit {
 
   rundownItems: RundownItem[] = [];
 
+  itemDragged: RundownItem = new RundownItem(new Story(0, 'temp', '', '', 0, false), 'STORY', []);
+  itemDraggedIndex: number = 0;
+  selectedItemIndex: number = -1;
+  alertItemIndex: number = -1;
+  highlightedRows: RundownItem[] = [];
+
+  newItem: RundownItem = new RundownItem(new Story(999999, 'New Story', '', '0:00', 0, false), 'STORY', []);
+
   constructor(private rundownItemService: RundownItemService, public alertService: AlertService) { }
 
   ngOnInit(): void {
@@ -60,24 +68,16 @@ export class RundownComponent implements OnInit {
     return rowCss;
   }
 
-
-  itemDragged: RundownItem = new RundownItem(new Story(0, 'temp', '', '', 0, false), 'STORY', []);
-  itemDraggedIndex: number = 0;
-  selectedItemIndex: number = -1;
-  alertItemIndex: number = -1;
-
-  newItem: RundownItem = new RundownItem(new Story(999999, 'New Story', '', '0:00', 0, false), 'STORY', []);
-
   // onDrag not doing anything at the moment
   onDrag(event: DragEvent, index: string) {
     // event.dataTransfer?.setData("text", index);
     // console.log('dragging', event, index);
   }
 
-  onDragStart(event: DragEvent, item: RundownItem, index: number) {
+  onDragStart(item: RundownItem, index: number) {
     this.itemDragged = item;
     this.itemDraggedIndex = index;
-    this.alertItemIndex = this.selectedItemIndex;
+    //    this.alertItemIndex = this.selectedItemIndex;
     // console.log('starting', event, item);
   }
 
@@ -117,6 +117,14 @@ export class RundownComponent implements OnInit {
     this.rundownItemService.moveRundownItem(item, index, this.itemDraggedIndex);
   }
 
+  moveItemDown(item: RundownItem, index: number, moves: number) {
+    this.rundownItemService.moveRundownItemDown(item, index, moves);
+  }
+
+  moveItemUp(item: RundownItem, index: number, moves: number) {
+    this.rundownItemService.moveRundownItemDown(item, index, moves * (-1));
+  }
+
   addItemAbove(item: RundownItem, index: number) {
     this.rundownItemService.addRundownItem(item, index);
     this.setAlertItemIndex(index);
@@ -141,4 +149,15 @@ export class RundownComponent implements OnInit {
     console.log("alertItemIndex: " + this.alertItemIndex);
   }
 
+  unHighlightRow(item: RundownItem) {
+    for (let i = 0; i < this.highlightedRows.length; i++) {
+      if (this.highlightedRows[i] === item) {
+        this.highlightedRows.splice(i, 1);
+      }
+    }
+  }
+
+  highlightRow(item: RundownItem) {
+    !this.highlightedRows.includes(item) ? this.highlightedRows.push(item) : this.unHighlightRow(item);
+  }
 }

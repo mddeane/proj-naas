@@ -25,6 +25,16 @@ export class RundownItemService {
     RUNDOWN_ITEMS.splice(index, 0, rundownItem);
   }
 
+  moveRundownItemDown(rundownItem: RundownItem, index: number, moves: number) {
+    RUNDOWN_ITEMS.splice(index, 1);
+    RUNDOWN_ITEMS.splice(index + moves, 0, rundownItem);
+  }
+
+  moveRundownItemUp(rundownItem: RundownItem, index: number, moves: number) {
+    RUNDOWN_ITEMS.splice(index, 1);
+    RUNDOWN_ITEMS.splice(index + moves, 0, rundownItem);
+  }
+
   addRundownItem(rundownItem: RundownItem, index: number) {
     RUNDOWN_ITEMS.splice(index, 0, rundownItem);
   }

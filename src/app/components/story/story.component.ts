@@ -26,9 +26,9 @@ export class StoryComponent implements OnInit {
   @Input() selectedStory2?: Story;
 
   ngOnInit(): void {
-    this.getStories();
-    this.selectedStory = this.stories[2];
-    this.savedScriptVersions.push(this.selectedStory.storyScript);
+    //    this.getStories();
+    //    this.selectedStory = this.stories[2];
+    //    this.savedScriptVersions.push(this.selectedStory.storyScript);
   }
 
   getStories(): void {

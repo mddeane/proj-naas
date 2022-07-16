@@ -42,5 +42,10 @@
 }
 
 .row-alert {
-  outline: 2px solid yellow;
+  outline: 2px solid #ffc107;
+}
+
+.hightlight-warning, .hightlight-warning input {
+  background-color: #fcffd9 !important;
+  color: black !important;
 }
