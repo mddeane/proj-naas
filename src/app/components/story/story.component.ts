@@ -1,7 +1,8 @@
 import { AlertService } from './../../services/alert.service';
 import { StoryService } from './../../services/story.service';
 import { Story } from './../../models/story.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -12,33 +13,37 @@ import { Component, Input, OnInit } from '@angular/core';
 export class StoryComponent implements OnInit {
 
   stories: Story[] = [];  // array of Story objects which holds Stories from Observable 
-  selectedStory: Story = new Story(0, "", "", "", 0, false);  // variable will hold the story being viewed
+
+  @Input() selectedStory: Story = new Story(9999, "New Story", "Script goes here.", "0:30", 0, false);  // variable will hold the story being viewed
 
   saveIsDisabled: boolean = true; // disables the save button
   redoIsDisabled: boolean = true; // disables the redo button
   undoIsDisabled: boolean = true; // disables the undo button
-  approvalStatus: boolean = false;  // toggles the approval status of the script 
+
+  @Output() approvalStatus: boolean = false;  // toggles the approval status of the script 
   // this may be changed to hold states, such as "empty (gray)", "working (yellow)", "marked for approval (blue)", "approved (green)" 
-  readyForApprovalStatus: boolean = false;  // toggles the ready for approval status of the script 
+  @Output() readyForApprovalStatus: boolean = false;  // toggles the ready for approval status of the script 
+
   readyForApprovalDisabled: boolean = false;  // toggles the ready for approval disabled status 
 
-  constructor(private storyService: StoryService, public alertService: AlertService) { }
-  @Input() selectedStory2?: Story;
+  constructor(private storyService: StoryService, public alertService: AlertService, private route: ActivatedRoute) { }
+
+  // selectedStory2?: Story;
 
   ngOnInit(): void {
-    //    this.getStories();
-    //    this.selectedStory = this.stories[2];
+    //this.getStories();
     //    this.savedScriptVersions.push(this.selectedStory.storyScript);
   }
 
-  getStories(): void {
-    this.storyService.getStories().subscribe(storyData => this.stories = storyData);
-  }
+  // getStories(): void {
+  //   this.storyService.getStories().subscribe(storyData => this.stories = storyData);
+  // }
 
-  getStoryById(storyId: number) {
-    this.storyService.getStory(storyId).subscribe(gotStory => this.selectedStory2 = gotStory);
-    console.log(this.selectedStory2?.storyId);
-  }
+  // getStoryById(storyId: number) {
+  //   this.storyService.getStory(storyId).subscribe(gotStory => this.selectedStory2 = gotStory);
+  //   console.log("getStoryById: " + this.selectedStory2?.storyId);
+  //   console.log(this.selectedStory2)
+  // }
 
   scriptVersions: string[] = [this.selectedStory.storyScript];
   currentVersion: number = 0;
@@ -113,13 +118,25 @@ export class StoryComponent implements OnInit {
     this.redoIsDisabled = false;
   }
 
+  // this is not working
+  // stories that are green to start ungreen on click
+
   checkApproval(story: Story): string {
-    if (story.storyScript && story.storyScript === this.savedScriptVersions[this.savedScriptVersions.length - 1]) {
+    if (this.savedScriptVersions.length < 1) {
+      this.approvalStatus = story.storyApproval;
+    } else if (story.storyScript && story.storyScript === this.savedScriptVersions[this.savedScriptVersions.length - 1]) {
       this.approvalStatus = story.storyApproval;
     } else {
       this.approvalStatus = false;
       story.storyApproval = false;
     }
+
+    // if (story.storyScript && story.storyScript === this.savedScriptVersions[this.savedScriptVersions.length - 1]) {
+    //   this.approvalStatus = story.storyApproval;
+    // } else {
+    //   this.approvalStatus = false;
+    //   story.storyApproval = false;
+    // }
 
     let returnClass: string = "fill-secondary";
 
@@ -148,6 +165,9 @@ export class StoryComponent implements OnInit {
 
   onReadyForApproval() {
     this.readyForApprovalStatus = !this.readyForApprovalStatus;
+    this.readyForApprovalStatus = true;
+    this.selectedStory.storyApproval = false;
+    this.saveChanges();
     this.alertService.showAlert("readyForApprovalStatus: " + this.readyForApprovalStatus, "primary", 10000);
   }
 
@@ -156,6 +176,17 @@ export class StoryComponent implements OnInit {
       this.saveChanges();
       event.preventDefault();
     }
+  }
+
+  charCount(script: string): number {
+    let count: number = script.length;
+    return count;
+  }
+
+  wordCount(script: string): number {
+    let wordArray: string[] = script.split(" ");
+    let count = wordArray.length;
+    return count;
   }
 
 }

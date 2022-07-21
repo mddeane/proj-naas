@@ -1,5 +1,10 @@
 <div class="m-3">
-    <h4>Rundown Title</h4>
+    <div class="row">
+        <div class="col-sm">
+            <h4>Rundown Title</h4>
+        </div>
+        <div class="col-sm">CLOCK</div>
+    </div>
     <table class="table table-sm table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
@@ -15,8 +20,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let rundownItem of rundownItems; let i = index" [class]="getRowCss(rundownItem.itemType, i)"
-                (click)="setSelectedItemIndex(i)" ondblclick="$('#storyModal').modal('show')"
+                (click)="setSelectedItem(rundownItem);" ondblclick=" $('#storyModal').modal('show')"
                 [ngClass]="highlightedRows.includes(rundownItem) ? 'hightlight-warning' : ''">
+                <!-- dropdown cell -->
                 <td class=" bg-secondary text-center" [class]="'margin: 0'">
                     <div class="dropdown">
                         <button class="app-btn-dropdown dropdown-toggle text-white" id="dropdownMenuButton"
@@ -37,9 +43,10 @@
                         </div>
                     </div>
                 </td>
-                <td [class]="rundownItem.itemStory.storyApproval ? 'bg-success text-center' : 'bg-secondary text-center'"
-                    [style]="'cursor: move;'">
-                    <div (dragenter)="onDragEnter($event, i.toString())" (dragleave)=" onDragLeave($event)"
+                <!-- move icon cell -->
+                <td [class]="rundownItem.itemStory.storyApproval ? 'bg-success' : 'bg-secondary'"
+                    [style]="'cursor: move; text-align: center;'">
+                    <div (dragenter)=" onDragEnter($event, i.toString())" (dragleave)=" onDragLeave($event)"
                         (dragover)="onDragOver($event)" (drop)="onDrop($event, i)" (dragend)="onDragEnd($event, i)">
                         <div [id]="'row-' + i" draggable="true" (dragstart)="onDragStart(rundownItem, i)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
@@ -50,25 +57,35 @@
                         </div>
                     </div>
                 </td>
+                <!-- checkbox cell -->
                 <td>
                     <div class="form-check text-center">
                         <input class="form-check-input" type="checkbox" (click)="highlightRow(rundownItem)">
                     </div>
                 </td>
-
+                <!-- page number cell -->
                 <td>
-                    <input type="text" class="input-clean input-small" value="{{i+1}}">
+                    <input appOnEnterKey type="text" class="input-clean input-small"
+                        [value]="buildPageNumber(rundownItem, i)"
+                        (change)="alertService.showAlert('Entered: ' + $any($event.target).value)">
                 </td>
+                <!-- story slug cell -->
                 <td>
-                    <input appFocusOff type=" text" class="input-clean" maxlength="24"
-                        [(ngModel)]="rundownItem.itemStory.storySlug">
-                </td>
+                    <input appOnEnterKey type="text" class="input-clean" maxlength="30"
+                        [(ngModel)]="rundownItem.itemStory.storySlug"
+                        (change)="alertService.showAlert('Entered: ' + $any($event.target).value)">
+                    {{rundownItem.itemStory.storyApproval}}
+                </td> <!-- estimated time cell -->
                 <td>
-                    <input type="text" class="input-clean input-small" [(ngModel)]="rundownItem.itemStory.storyEstTime">
+                    <input appOnEnterKey type=" text" class="input-clean input-small"
+                        [(ngModel)]="rundownItem.itemStory.storyEstTime"
+                        (change)="alertService.showAlert('Entered: ' + $any($event.target).value)">
                 </td>
+                <!-- story id cell -->
                 <td>
                     {{rundownItem.itemStory.storyId}}
                 </td>
+                <!-- graphics cell -->
                 <td>
                     <div [class]="gfx.graphicCss" *ngFor="let gfx of rundownItem.itemGraphics; let i = index">
                         <span class="font-weight-bold">
@@ -101,8 +118,7 @@
     </table>
 </div>
 
-<button class="btn btn-primary" (click)="setSelectedItemIndex(1);
-">
+<button class="btn btn-primary" (click)="setSelectedItemIndex(1)">
     Test
 </button>
 
@@ -110,8 +126,11 @@
 <div class=" modal fade story-modal" tabindex="-1" role="dialog" aria-labelledby="storyLabel" aria-hidden="true"
     id="storyModal">
     <div class="modal-dialog modal-lg">
+        <div style="float: right; font-size: 30px; color: white">
+            &otimes;</div>
         <div class="modal-content p-3">
-            <app-story></app-story>
+            <app-story [selectedStory]="selectedItem.itemStory">
+            </app-story>
         </div>
     </div>
 </div>

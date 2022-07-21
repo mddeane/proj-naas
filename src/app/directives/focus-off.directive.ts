@@ -10,6 +10,6 @@ export class FocusOffDirective {
   constructor(private el: ElementRef, public alertService: AlertService) { }
 
   @HostListener('focusout') onFocus() {
-    this.alertService.showAlert(this.el.nativeElement.value);
+    this.alertService.showAlert("Entered: " + this.el.nativeElement.value);
   }
 }

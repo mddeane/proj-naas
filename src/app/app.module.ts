@@ -12,6 +12,7 @@ import { MessageComponent } from './components/message/message.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { FocusOffDirective } from './directives/focus-off.directive';
 import { DoubleClickOpenDirective } from './directives/double-click-open.directive';
+import { OnEnterKeyDirective } from './directives/on-enter-key.directive';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { DoubleClickOpenDirective } from './directives/double-click-open.directi
     MessageComponent,
     AlertComponent,
     FocusOffDirective,
-    DoubleClickOpenDirective
+    DoubleClickOpenDirective,
+    OnEnterKeyDirective
   ],
   imports: [
     BrowserModule,

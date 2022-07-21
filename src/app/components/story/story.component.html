@@ -1,22 +1,31 @@
 <div class="w-100 mt-3" (keydown)="ctrlSSave($event)">
-    <h4>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" [ngClass]="checkApproval(selectedStory)"
-            viewBox="0 0 16 16">
-            <path
-                d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-        </svg>
-        {{selectedStory.storySlug}}
-    </h4>
+    <div class="row">
+        <div class="col-9">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" [ngClass]="checkApproval(selectedStory)"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                </svg>
+                {{selectedStory.storySlug}}
+            </h3>
+        </div>
+        <div class="col-3 text-right">
+            Word count: {{wordCount(selectedStory.storyScript.trim())}}
+        </div>
+    </div>
     <textarea [(ngModel)]="selectedStory.storyScript" class="w-100 p-2" style="min-height:400px; resize: none;"
         (input)="onEachInput(selectedStory.storyScript)"></textarea>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             Estimated time: {{selectedStory.storyEstTime}}
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-2">
             Story ID: {{selectedStory.storyId}}
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 text-right">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="readyForApprovalCheck"
                     (click)="onReadyForApproval()" [checked]="readyForApprovalStatus"
@@ -26,10 +35,10 @@
                 </label>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 text-right">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="approvalCheck" (click)="onApproval()"
-                    [checked]="approvalStatus" [disabled]="!selectedStory.storyScript">
+                    [checked]="selectedStory.storyApproval" [disabled]="!selectedStory.storyScript">
                 <label class="form-check-label" for="approvalCheck">
                     Approved
                 </label>

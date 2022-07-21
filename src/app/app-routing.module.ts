@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'rundown', component: RundownComponent },
-  { path: 'story', component: StoryComponent },
+  { path: 'story/:id', component: StoryComponent },
 
   // wildcard must be last
   { path: '**', component: DashboardComponent }

@@ -11,7 +11,7 @@ export class AlertService {
   alerts: Alert[] = [];
 
   alertCounter: number = 1;
-  alertDefaultDuration: number = 5000;
+  alertDefaultDuration: number = 2000;
 
   showAlert(alertMessage: string, alertType?: string, alertDuration?: number) {
 
